@@ -8,6 +8,10 @@
         <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap-social.css"/>
         <link rel="stylesheet" href="../Frameworks and Tools/font-awesome/css/font-awesome.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        
     </head>
 
     <body>
@@ -26,6 +30,63 @@
                 </div>
             </div>
         </header>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-1 col-sm-1">
+                </div>
+                <div class="col-lg-6 col-md-10 col-sm-10">
+                    <div id="login-register-form">
+                        <ul class="tabs">
+                            <li class="login selected">Login</li>
+                            <li class="signup">Sign Up</li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="selectedSection" id="loginSection">   
+                                <h1 id="form-message">Nice to have you back</h1>
+                                <div>
+                                    <p class="input-text">Email Address</p>
+                                    <input class="form-input" type="text">
+                                </div>
+                                <div>
+                                    <p class="input-text">Password</p>
+                                    <input class="form-input" type="password">
+                                </div>
+                                <button class="button">LOGIN</button>
+                            </div>
+
+                            <div class="notSelectedSection" id="signupSection">   
+                                <h1 id="form-message">Sign Up for Free</h1>
+                                <div class="input-row">
+                                    <div>
+                                        <p class="input-text">First Name</p>
+                                        <input class="form-input" type="text">
+                                    </div>
+
+                                    <div>
+                                        <p class="input-text">Last Name</p>
+                                        <input class="form-input" type="text">
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="input-text">Email Address</p>
+                                    <input class="form-input" type="text">
+                                </div>
+
+                                <div class="field-wrap">
+                                    <p class="input-text">Password</p>
+                                    <input class="form-input" type="password">
+                                </div>
+                                <button class="button">SIGN UP</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-1 col-sm-1">
+                </div>
+            </div>
+        </div>
     </body>
     
     <footer class="row-footer">
@@ -43,13 +104,13 @@
                 <div class="col-xs-6 col-sm-5">
                     <h5>Our Address</h5>
                     <address>
-		              121, Clear Water Bay Road<br>
-		              Clear Water Bay, Kowloon<br>
-		              HONG KONG<br>
+		              Pablo M. de Sarasate 212<br>
+		              Colinas de San Jerónimo<br>
+		              Monterrey, México<br>
 		              <i class="fa fa-phone"></i>: +852 1234 5678<br>
 		          <i class="fa fa-fax"></i>: +852 8765 4321<br>
 		          <i class="fa fa-envelope"></i>: 
-                                 <a href="mailto:confusion@food.net">confusion@food.net</a>
+                                 <a href="mailto:cover@gmail.com">cover@gmail.com</a>
 		           </address>
                 </div>
                 <div>
@@ -64,12 +125,13 @@
                 </div>
                 <div class="col-xs-12">
                     <p style="padding:10px;"></p>
-                    <p align=center>© Copyright 2015 Ristorante Con Fusion</p>
+                    <p align=center>© Copyright 2017 Cover</p>
                 </div>
             </div>
         </div>
     </footer>
     
-    <script src="../jquery/jquery.js"></script>
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../Frameworks and Tools/jquery/jquery.js"></script>
+    <script src="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"></script>
+    <script src="../js/index.js"></script>
 </html>
