@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset = "utf-8">
+        <meta charset = "UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Cover by Hugo García</title>
-        <link rel="stylesheet" type="text/css" href="../css/styles.css">
-        <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap-social.css"/>
-        <link rel="stylesheet" href="../Frameworks and Tools/font-awesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" href="Frameworks and Tools/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="Frameworks and Tools/bootstrap/css/bootstrap-social.css"/>
+        <link rel="stylesheet" href="Frameworks and Tools/font-awesome/css/font-awesome.min.css"/>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        
     </head>
 
     <body id="body-background">
+        
         <header class="jumbotron" id="jumbotron">
             <div class="container">
                 <div class="row row-header">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-2">
                         <p style="padding:20px;"></p>
-                        <img src="../images/Cover Logo.png" class="img-responsive">
+                        <img src="images/Cover Logo.png" class="img-responsive">
                     </div>
                 </div>
             </div>
@@ -47,13 +47,23 @@
                                 <h1 id="form-message">Nice to have you back</h1>
                                 <div>
                                     <p class="input-text">Email Address</p>
-                                    <input class="form-input" type="text">
+                                    <input class="form-input" type="text" id="emailLogin">
+                                    <span class="alertMessage" id="emailLoginMessage"></span>
                                 </div>
                                 <div>
                                     <p class="input-text">Password</p>
-                                    <input class="form-input" type="password">
+                                    <input class="form-input" type="password" id="passwordLogin">
+                                    <span class="alertMessage" id="passwordLoginMessage"></span>
                                 </div>
-                                <button class="button">LOGIN</button>
+                                <div>
+                                    <label>
+                                        <p class="input-text">Remember Me</p>
+                                        <input type="checkbox" id="rememberMe">
+                                        <p class="helper checkbox"></p>
+                                    </label>
+                                </div>
+                                <button class="button" id="loginButton">LOGIN</button>
+                                <span class="alertMessage" id="loginButtonMessage"></span>
                             </div>
 
                             <div class="notSelectedSection" id="signupSection">   
@@ -112,12 +122,17 @@
                                     </select>
                                     <span class="alertMessage" id="countrySignupMessage"></span>
                                 </div>
+                                <div>
+                                    <p class="input-text">City</p>
+                                    <input class="form-input" id="citySignup" type="text">
+                                    <span class="alertMessage" id="citySignupMessage"></span>
+                                </div>
                                 <button class="button" id="signupButton">SIGN UP</button>
                                 <span class="alertMessage" id="signupButtonMessage"></span>
                             </div>
                             <script type="text/javascript">
-                                    $(".notSelectedSection").hide();
-                                </script>
+                                $(".notSelectedSection").hide();
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -168,7 +183,8 @@
         </div>
     </footer>
     
-    <script src="../Frameworks and Tools/jquery/jquery.js"></script>
-    <script src="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"></script>
-    <script src="../js/index.js"></script>
+    <script src="Frameworks and Tools/jquery/jquery.js"></script>
+    <script src="Frameworks and Tools/bootstrap/css/bootstrap.min.css"></script>
+    <script src="js/index.js"></script>
+    <script src="js/sessionHandler.js"></script>
 </html>

@@ -12,6 +12,77 @@ $(document).ready(function() {
         $("#" + currentClass + "Section").addClass("selectedSection").removeClass("notSelectedSection");
     });
     
+    jsonToSend = {
+        "action" : "GET_COOKIES"
+    };
+    
+    $.ajax({
+		url : "./data/applicationLayer.php",
+		type : "POST",
+        data : jsonToSend,
+        ContetType : "json/application",
+        datatype: 'json',
+		success : function(dataReceived) {
+			$("#emailLogin").val(dataReceived.Email);
+		}
+	});
+    
+    $("#loginButton").on("click", function () {
+        var email = $("#emailLogin").val();
+        var password = $("#passwordLogin").val();
+        var remember = $("#rememberMe").is(":checked");
+        
+        if (email == "")
+        {
+            $("#usernameLoginMessage").text("You must provide an input.");
+            $("#loginButtonMessage").text("");
+        }
+        else if (!validateEmail(email))
+        {
+            $("#usernameLoginMessage").text("You must provide a valid email.");
+        }
+        else
+        {
+            $("#usernameLoginMessage").text("");
+        }
+        
+        if (password == "")
+        {
+            $("#passwordLoginMessage").text("You must provide an input.");
+            $("#loginButtonMessage").text("");
+        }
+        else
+        {
+            $("#passwordLoginMessage").text("");
+        }
+        
+        if (email != "" &&
+            password != "")
+        {
+            var jsonToSend = {
+                "email" : email,
+                "password" : password,
+                "rememberMe" : remember,
+                "action" : "LOGIN"
+            };
+
+            $.ajax({
+                url : "./data/applicationLayer.php",
+                type : "POST",
+                data : jsonToSend,
+                ContentType : "application/json",
+                datatype: 'json',
+                success : function(dataReceived) {
+                    window.location.replace("./html/home.html");
+                },
+                error : function(errorMessage) {
+                    alert(errorMessage.statusText);
+                    $("#loginButtonMessage").text("Your credentials are not valid.");
+                }
+            });
+        }
+    });
+    
     $("#signupButton").on("click", function() {
         var firstName = $("#firstNameSignup").val();
         var lastName = $("#lastNameSignup").val();
@@ -20,6 +91,7 @@ $(document).ready(function() {
         var password = $("#passwordSignup").val();
         var passwordConfirmation = $("#passwordConfirmationSignup").val();
         var country = $("#countrySignup").find(":selected").val();
+        var city = $("#citySignup").val();
         
         if (firstName == "") $("#firstNameSignupMessage").text("You must provide an input.");
         else $("#firstNameSignupMessage").text("");
@@ -42,6 +114,9 @@ $(document).ready(function() {
         
         if (country == 0) $("#countrySignupMessage").text("Please select a country.");
         else $("#countrySignupMessage").text("");
+        
+        if (city == "") $("#citySignupMessage").text("You must provide an input.");
+        else $("#citySignupMessage").text("");
 
         if (password != "" &&
            passwordConfirmation != "" &&
@@ -56,12 +131,13 @@ $(document).ready(function() {
             password != "" &&
             passwordConfirmation != "" &&
             country != 0 &&
-            validateEmail(email))
+            validateEmail(email) &&
+            city != "")
         {
             $("#passwordConfirmationSignupMessage").text("");
             
             country = $("#countrySignup").find(":selected").text();
-            
+
             var jsonToSend = {
                 "firstName" : firstName,
                 "lastName" : lastName,
@@ -69,21 +145,21 @@ $(document).ready(function() {
                 "musicianName" : musicianName,
                 "password" : password,
                 "country" : country,
+                "city" : city,
                 "action" : "REGISTRATION"
             };
             
             $.ajax({
-                url : "../data/applicationLayer.php",
+                url : "./data/applicationLayer.php",
                 type : "POST",
                 data : jsonToSend,
                 ContetType : "json/application",
                 success : function(dataReceived) {
-                    localStorage.setItem("MusicianId", dataReceived["MusicianId"]);
-                    window.location.href = "./home.html";
+                    window.location.href = "./html/home.html";
                 },
                 error : function(errorMessage) {
                     alert(errorMessage.statusText);
-                    $("#registerButtonMessage").text("There has been an error.");
+                    $("#signupButtonMessage").text("There has been an error.");
                 }
             });
         }
