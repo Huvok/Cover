@@ -242,6 +242,7 @@ body, html {
 .profile-well {
     border-style: solid;
     border-color: rgba(224, 158, 26, 1);
+    padding-bottom: 20px;
 }
 
 .profile-well-title {
@@ -258,4 +259,8 @@ img {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+#timeNewPerformance {
+    margin-bottom: 20px;
 }

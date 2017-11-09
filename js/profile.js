@@ -36,7 +36,7 @@ $(document).ready(function() {
             {
                 var image = new Image();
                 image.src = 'data:image/jpeg;base64,' + dataReceived[i];
-                console.log(dataReceived[i]);
+
                 var list = document.getElementById("image-list"),
                   li   = document.createElement("li");
                 li.appendChild(image);
@@ -47,5 +47,19 @@ $(document).ready(function() {
         {
             alert(errorMessage.statusText);
         }
-    })
+    });
+    
+   $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+    
+    $("#newPerformanceButton").on("click", function () {
+       console.log($("#dateTimeNewPerformance").val()); 
+    });
 });

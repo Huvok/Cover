@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap-social.css"/>
         <link rel="stylesheet" href="../Frameworks and Tools/font-awesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="../Frameworks%20and%20Tools/datetime-picker/css/bootstrap-datetimepicker.css"/>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -63,41 +64,47 @@
                 <div class="col-lg-10 offset-lg-1 profile-well">
                     <div class="profile-well-title">
                         <h3>Photos</h3>
-                        <form method="post" enctype="multipart/form-data"  action="../data/upload.php">
-                            <input type="file" name="images" id="images" multiple />
-                            <button type="submit" id="btn">Upload Files!</button>
-                        </form>
-                        
-                        <div id="response"></div>
-                        <ul id="image-list">
-
-                        </ul>
                     </div>
+                    <form method="post" enctype="multipart/form-data"  action="../data/upload.php">
+                        <input type="file" name="images" id="images" multiple />
+                        <button type="submit" id="btn">Upload Files!</button>
+                    </form>
+
+                    <div id="response"></div>
+                    <ul id="image-list">
+
+                    </ul>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="col-lg-10 offset-lg-1 profile-well">
                     <div class="profile-well-title">
                         <h3>Performances</h3>
-                        <div id="newPerformance">
-                            <div>
-                                <p class="input-text">Place</p>
-                                <input class="form-input" id="placeNewPerformance" type="text">
-                                <span class="alertMessage" id="placeNewPerformanceMessage"></span>
-                            </div>
-                            <div>
-                                <p class="input-text">Location</p>
-                                <input class="form-input" id="locationNewPerformance" type="text">
-                                <span class="alertMessage" id="locationNewPerformanceMessage"></span>
-                            </div>
-                            <button type="submit" id="newPerformanceButton">Post Performance</button>
+                    </div>
+                    <div id="newPerformance">
+                        <div>
+                            <p class="input-text">Place</p>
+                            <input class="form-input" id="placeNewPerformance" type="text">
+                            <span class="alertMessage" id="placeNewPerformanceMessage"></span>
                         </div>
+                        <div>
+                            <p class="input-text">Location</p>
+                            <input class="form-input" id="locationNewPerformance" type="text">
+                            <span class="alertMessage" id="locationNewPerformanceMessage"></span>
+                        </div>
+                        <div id="timeNewPerformance">
+                            <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                <input class="form-control" size="16" type="text" value="" readonly id="dateTimeNewPerformance">
+                                <span class="input-group-addon"><span class="fa fa-remove"></span></span>
+                                <span class="input-group-addon"><span class="fa fa-th"></span></span>
+                            </div>
+                        </div>
+                        <button type="submit" id="newPerformanceButton">Post Performance</button>
                     </div>
                 </div>
             </div>
         </div>  
     </body>
-    
     
     <footer class="row-footer">
         <div class="container">
@@ -144,4 +151,5 @@
     <script src="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"></script>
     <script src="../js/profile.js"></script>
     <script src="../js/upload.js"></script>
+    <script src="../Frameworks%20and%20Tools/datetime-picker/js/bootstrap-datetimepicker.js"></script>
 </html>
