@@ -124,6 +124,220 @@
         }
     }
 
+    function jsonAttemptSubmitNewPerformance($musicianId, $place, $location, $datetime)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "INSERT INTO
+                        Performance (PerformanceId, MusicianId, Place, Location, DateAndTime)
+                    VALUES
+                        (NULL, $musicianId, '$place', '$location', '$datetime');";
+            
+            $result = $connection->query($sql);
+            
+            if ($result)
+            {
+                $response = array("MESSAGE" => "SUCCESS");
+                $connection->close();
+                return $response;
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptGetPerformances($musicianId)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT
+                        *
+                    FROM
+                        Performance
+                    WHERE
+                        MusicianId = '$musicianId';";
+            
+            $result = $connection->query($sql);
+            
+            if ($result)
+            {
+                $response = array();
+                if ($result->num_rows > 0)
+                {
+                    while ($row = $result->fetch_assoc())
+                    {
+                        $response[] = array("place" => $row["Place"],
+                                           "location" => $row["Location"],
+                                           "dateTime" => $row["DateAndTime"]);
+                    }
+                }
+                
+                $connection->close();
+                return array("response" => $response,
+                            "MESSAGE" => "SUCCESS");
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptUploadImage($musicianId, $fileName)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT
+                        *
+                    FROM
+                        RecentActivity
+                    WHERE
+                        MusicianId = $musicianId;";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {
+                $sql = "UPDATE
+                            RecentActivity
+                        SET
+                            Type = 'Image', FileName = '$fileName'
+                        WHERE
+                            MusicianId = $musicianId;";
+            }
+            else
+            {
+                $sql = "INSERT INTO
+                            RecentActivity (RecentActivityId, MusicianId, Type, ActivityId, FileName)
+                        VALUES (NULL, $musicianId, 'Image', NULL, '$fileName');";
+            }
+
+            $result = $connection->query($sql);
+            
+            if ($result)
+            {
+                $connection->close();
+                return array("MESSAGE" => "SUCCESS");
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptUploadTrack($musicianId, $fileName)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT
+                        *
+                    FROM
+                        RecentActivity
+                    WHERE
+                        MusicianId = $musicianId;";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {
+                $sql = "UPDATE
+                            RecentActivity
+                        SET
+                            Type = 'Track', FileName = '$fileName'
+                        WHERE
+                            MusicianId = $musicianId;";
+            }
+            else
+            {
+                $sql = "INSERT INTO
+                            RecentActivity (RecentActivityId, MusicianId, Type, ActivityId, FileName)
+                        VALUES (NULL, $musicianId, 'Track', NULL, '$fileName');";
+            }
+
+            $result = $connection->query($sql);
+            
+            if ($result)
+            {
+                $connection->close();
+                return array("MESSAGE" => "SUCCESS");
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptSearch($MusicianId, $searchContent)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT *
+                    FROM Musician
+                    WHERE
+                        (MusicianName like '%$searchContent%' OR Email like '%$searchContent%') AND
+                        Musician.MusicianId not in (SELECT MusicianReceivedId from Connection WHERE Connection.MusicianSentId = $MusicianId) AND
+                        Musician.MusicianId != $MusicianId;";
+            
+            $result = $connection->query($sql);
+            
+            $response = array();
+            
+            if ($result->num_rows > 0)
+            {
+                while ($row = $result->fetch_assoc())
+                {
+                    $response[] = array("musicianName"=>$row["MusicianName"],
+                                      "country"=>$row["Country"],
+                                      "city"=>$row["City"],
+                                       "email" => $row["Email"]);
+                }
+            }
+            
+            $connection->close();
+            $res = array("response" => $response,
+                        "MESSAGE" => "SUCCESS");
+            return $res;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
     function clean($string) 
     {
         return preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/', '', $string);

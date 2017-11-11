@@ -30,15 +30,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Discover</a>
+                    <a class="nav-link" href="discover.html">Discover</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="connections.html">Connections</a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
             <div class="form-inline my-2 my-lg-0 ml-2">
-              <button class="btn-outline-secondary" id="logoutButton">Logout</button>
+                <button class="btn-outline-secondary" id="logoutButton">Logout</button>
             </div>
         </div>
     </nav>
@@ -58,6 +61,15 @@
                     <div class="profile-well-title">
                         <h3>Tracks</h3>
                     </div>
+                    <form method="post" enctype="multipart/form-data"  action="../data/uploadTracks.php">
+                        <input type="file" name="tracks" id="tracks" multiple />
+                        <button type="submit" id="btnTracks">Upload Tracks!</button>
+                    </form>
+
+                    <div id="responseTracks"></div>
+                    <ul id="track-list">
+
+                    </ul>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -67,7 +79,7 @@
                     </div>
                     <form method="post" enctype="multipart/form-data"  action="../data/upload.php">
                         <input type="file" name="images" id="images" multiple />
-                        <button type="submit" id="btn">Upload Files!</button>
+                        <button type="submit" id="btn">Upload Images!</button>
                     </form>
 
                     <div id="response"></div>
@@ -80,6 +92,8 @@
                 <div class="col-lg-10 offset-lg-1 profile-well">
                     <div class="profile-well-title">
                         <h3>Performances</h3>
+                    </div>
+                    <div id="performances">
                     </div>
                     <div id="newPerformance">
                         <div>
@@ -98,6 +112,7 @@
                                 <span class="input-group-addon"><span class="fa fa-remove"></span></span>
                                 <span class="input-group-addon"><span class="fa fa-th"></span></span>
                             </div>
+                            <span class="alertMessage" id="dateTimeNewPerformanceMessage"></span>
                         </div>
                         <button type="submit" id="newPerformanceButton">Post Performance</button>
                     </div>
@@ -150,6 +165,5 @@
     <script src="../Frameworks and Tools/jquery/jquery.js"></script>
     <script src="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"></script>
     <script src="../js/profile.js"></script>
-    <script src="../js/upload.js"></script>
     <script src="../Frameworks%20and%20Tools/datetime-picker/js/bootstrap-datetimepicker.js"></script>
 </html>

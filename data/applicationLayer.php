@@ -22,6 +22,21 @@
         case "DELETE_SESSION" :
             subDeleteSessionFunction();
             break;
+        case "SUBMIT_NEW_PERFORMANCE" :
+            subSubmitNewPerformanceFunction();
+            break;
+        case "GET_OWN_PERFORMANCES" :
+            subGetOwnPerformancesFunction();
+            break;
+        case "UPLOAD_IMAGE" :
+            subUploadImageFunction();
+            break;
+        case "UPLOAD_TRACK" :
+            subUploadTrackFunction();
+            break;
+        case "SEARCH" :
+            subSearchFunction();
+            break;
     }
 
     function subLoginFunction()
@@ -123,6 +138,109 @@
         else
         {
             subGetErrorByCode("406");
+        }
+    }
+
+    function subSubmitNewPerformanceFunction()
+    {
+        session_start();
+        $musicianId = $_SESSION["MusicianId"];
+        $place = $_POST["place"];
+        $location = $_POST["location"];
+        $dateTime = $_POST["datetime"];
+        
+        $submitNewPerformanceResponse = jsonAttemptSubmitNewPerformance($musicianId, $place, $location, $dateTime);
+        
+        if ($submitNewPerformanceResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode(array("MESSAGE" => "SUCCESS"));
+        }
+        else
+        {
+            subGetErrorByCode($submitNewPerformanceResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetOwnPerformancesFunction()
+    {
+        session_start();
+        $musicianId = $_SESSION["MusicianId"];
+        
+        $getOwnPerformancesResponse = jsonAttemptGetPerformances($musicianId);
+        
+        if ($getOwnPerformancesResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($getOwnPerformancesResponse["response"]);
+        }
+        else
+        {
+            subGetErrorByCode($getOwnPerformancesResponse["MESSAGE"]);
+        }
+    }
+
+    function subUploadImageFunction()
+    {
+        
+        session_start();
+
+        if (!file_exists('C:/Users/Huvok/Documents/GitHub/Cover/uploads/images/' . $_SESSION["MusicianId"])) 
+        {
+            mkdir('C:/Users/Huvok/Documents/GitHub/Cover/uploads/images/' . $_SESSION["MusicianId"], 0777, true);
+        }
+
+        if(!move_uploaded_file($_FILES['images']['tmp_name'], 'C:/Users/Huvok/Documents/GitHub/Cover/uploads/images/' . $_SESSION["MusicianId"] . "/" . $_FILES['images']['name'])){
+            die('Error uploading file - check destination is writeable.');
+        }
+        
+        $uploadImageResponse = jsonAttemptUploadImage($_SESSION["MusicianId"], $_FILES["images"]["name"]);
+        
+        if ($uploadImageResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode(array("MESSAGE" => "Image uploaded successfully."));
+        }
+        else
+        {
+            subGetErrorByCode($uploadImageResponse["MESSAGE"]);
+        }
+    }
+
+    function subUploadTrackFunction()
+    {
+        session_start();
+
+        if (!file_exists('C:/Users/Huvok/Documents/GitHub/Cover/uploads/audio/' . $_SESSION["MusicianId"])) 
+        {
+            mkdir('C:/Users/Huvok/Documents/GitHub/Cover/uploads/audio/' . $_SESSION["MusicianId"], 0777, true);
+        }
+
+        if(!move_uploaded_file($_FILES['tracks']['tmp_name'], 'C:/Users/Huvok/Documents/GitHub/Cover/uploads/audio/' . $_SESSION["MusicianId"] . "/" . $_FILES['tracks']['name'])){
+            die('Error uploading file - check destination is writeable.');
+        }
+
+        $uploadTrackResponse = jsonAttemptUploadTrack($_SESSION["MusicianId"], $_FILES["tracks"]["name"]);
+
+        if ($uploadTrackResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode(array("MESSAGE" => "Track uploaded successfully."));
+        }
+        else
+        {
+            subGetErrorByCode($uploadImageResponse["MESSAGE"]);
+        }
+    }
+
+    function subSearchFunction()
+    {
+        session_start();
+        $searchResponse = jsonAttemptSearch($_SESSION["MusicianId"], $_POST["search"]);
+        
+        if ($searchResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($searchResponse["response"]);
+        }
+        else
+        {
+            subGetErrorByCode($searchResponse["MESSAGE"]);
         }
     }
 

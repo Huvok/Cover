@@ -169,7 +169,7 @@ input[type="checkbox"] {
     position: relative;
 }
 
-div p {
+div .inline-p {
     display: inline-block;
 }
 
@@ -261,6 +261,25 @@ img {
     padding: 0;
 }
 
+#track-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 #timeNewPerformance {
     margin-bottom: 20px;
+}
+
+.performance {
+    color: white;
+    margin-bottom: 10px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: rgba(224, 158, 26, 1);
+}
+
+.performance p {
+    display: block;
+    margin-bottom: 0;
 }
