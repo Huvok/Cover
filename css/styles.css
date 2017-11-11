@@ -1,7 +1,12 @@
+.row-header p {
+    font-size: 1.5em;
+}
+
 #login-register-form {
     background: rgba(19, 35, 47, 0.9);
     padding: 40px;
     box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+    margin: 20px 0px;
 }
 
 .tabs {
@@ -22,6 +27,7 @@
     text-align: center;
     cursor: pointer;
     -webkit-transition: .5s ease;
+    -moz-transition: .5s ease;
     transition: .5s ease;
 }
 
@@ -56,16 +62,25 @@
     background: none;
     border: 1px solid #a0b3b0;
     color: #ffffff;
+    outline: none;
     -webkit-transition: border-color .5s ease;
+    -moz-transition: border-color .5s ease;
     transition: border-color .5s ease;
 }
 
+option {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 22px;
+    margin: 0px;
+    background-color: rgba(19, 35, 47, 0.9);
+}
+
 input:focus {
-    outline: 0;
     border-color: rgba(224, 158, 26, 1);
 }
 
 .button {
+    margin-top: 20px;
     border: 0;
     outline: none;
     width: 100%;
@@ -76,12 +91,14 @@ input:focus {
     background: rgba(224, 158, 26, 1);
     color: #ffffff;
     -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
     transition: all 0.5s ease;
     cursor: pointer;
 }
 
 .button:hover, .button:focus {
     background: rgba(183, 129, 22, 1);
+    outline: none;
 }
 
 .input-row > div {
@@ -94,10 +111,175 @@ input:focus {
     margin: 0;
 }
 
-.selectedSection {
-    display: block;
+.row-footer {
+    margin: 0px auto;
+    padding: 20px 0px;
+    background-color: rgba(51, 64, 73, 1.0);
+    color: aliceblue;
 }
 
-.notSelectedSection {
-    display: none;
+#jumbotron {
+    margin: 0px auto;
+    padding: 70px 30px;
+    background-color: rgba(19, 35, 47, 0.9);
+    color: aliceblue;
+}
+
+address {
+    color: #0f0f0f;
+    font-size: 80%;
+    margin: 0px;
+    color: aliceblue;
+}
+
+.social {
+    padding: 50px 0px;
+    color: aliceblue;
+}
+
+#body-background {
+    background-color: rgba(19, 35, 47, 0.9);
+}
+
+.alertMessage {
+    color: red;
+}
+
+#countrySignup {
+    background: url(../images/Arrow%20Down.png) no-repeat center right;
+    background-size: contain;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+     -webkit-transition: border-color .5s ease;
+    -moz-transition: border-color .5s ease;
+    transition: border-color .5s ease;
+}
+
+select:focus {
+    border-color: rgba(224, 158, 26, 1);
+}
+
+input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox {
+    position: relative;
+}
+
+div .inline-p {
+    display: inline-block;
+}
+
+.helper {
+    cursor: pointer;
+}
+
+.helper:before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    width: 22px;
+    height: 22px;
+    -webkit-transition: transform 0.3s ease;
+    -moz-transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
+    border-radius: 3px;
+    border: 2px solid rgba(224, 158, 26, 1);
+}
+
+.helper:after {
+    content: "";
+    width: 10px;
+    height: 5px;
+    border-bottom: 2px solid rgba(224, 158, 26, 1);
+    border-left: 2px solid rgba(224, 158, 26, 1);
+    -webkit-transform: rotate(-45deg) scale(0);
+    -moz-transform: rotate(-45deg) scale(0);
+    transform: rotate(-45deg) scale(0);
+    position: absolute;
+    top: 8px;
+    left: 11px;
+}
+
+input[type="checkbox"]:checked ~ .helper::after {
+    -webkit-transform: rotate(-45deg) scale(1);
+    -moz-transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
+}
+
+.checkbox {
+    min-height: 22px;
+    margin-bottom: 0;
+    vertical-align: sub;
+}
+
+.navbar {
+    background-color: rgba(19, 35, 47, 0.9);
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
+
+body, html {
+    height: 100%;
+}
+
+.bg {
+    background-image: url("../images/Band%20Dummy%20Cover.jpg");
+    height: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .65;
+}
+
+#musicianName {
+    text-align: center;
+    color: white;
+}
+
+.profile-well {
+    border-style: solid;
+    border-color: rgba(224, 158, 26, 1);
+    padding-bottom: 20px;
+}
+
+.profile-well-title {
+    color: rgba(224, 158, 26, 1);
+    text-align: center;
+    font-weight: 50%;
+}
+
+img {
+    width: 100%;
+}
+
+#image-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#track-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#timeNewPerformance {
+    margin-bottom: 20px;
+}
+
+.performance {
+    color: white;
+    margin-bottom: 10px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: rgba(224, 158, 26, 1);
+}
+
+.performance p {
+    display: block;
+    margin-bottom: 0;
 }
