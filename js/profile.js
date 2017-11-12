@@ -121,9 +121,9 @@ $(document).ready(function() {
         else
             $("#locationNewPerformanceMessage").text("");
         
-        if ($("#dateTimeNewPerformance") != "" &&
-            $("#placeNewPerformance") != "" &&
-            $("#locationNewPerformance") != "")
+        if ($("#dateTimeNewPerformance").val() != "" &&
+            $("#placeNewPerformance").val() != "" &&
+            $("#locationNewPerformance").val() != "")
         {
             var jsonToSend = {
                 "place" : $("#placeNewPerformance").val(),
@@ -139,7 +139,18 @@ $(document).ready(function() {
                 data : jsonToSend,
                 ContetType : "json/application",
                 success : function(dataReceived) {
+                    var newHtml = "";
+                    newHtml += '<div class="performance">'
+                    newHtml += '<h5>' + $("#placeNewPerformance").val() + '</h5>';
+                    newHtml += '<p>' + $("#locationNewPerformance").val() + '</p>';
+                    newHtml += '<p>' + stringParseDateTime($("#dateTimeNewPerformance").val()) + '</p>';
+                    newHtml += '</div>';
 
+                    $("#performances").append(newHtml);
+                    
+                    $("#dateTimeNewPerformance").val("");
+                    $("#placeNewPerformance").val("");
+                    $("#locationNewPerformance").val("");
                 }
             });
         }

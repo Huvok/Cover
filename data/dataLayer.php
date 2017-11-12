@@ -130,10 +130,44 @@
         
         if ($connection != null)
         {
-            $sql = "INSERT INTO
-                        Performance (PerformanceId, MusicianId, Place, Location, DateAndTime)
-                    VALUES
-                        (NULL, $musicianId, '$place', '$location', '$datetime');";
+            $sql = "SELECT
+                        *
+                    FROM
+                        RecentActivity
+                    WHERE
+                        MusicianId = $musicianId;";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {
+                $sql = "INSERT INTO
+                            Performance (PerformanceId, MusicianId, Place, Location, DateAndTime)
+                        VALUES
+                            (NULL, $musicianId, '$place', '$location', '$datetime');";
+                
+                $connection->query($sql);
+                $lastId = $connection->insert_id;
+                $sql = "UPDATE
+                            RecentActivity
+                        SET
+                            Type = 'Performance', ActivityId = $lastId, FileName = NULL
+                        WHERE
+                            MusicianId = $musicianId;";
+            }
+            else
+            {
+                $sql = "INSERT INTO
+                            Performance (PerformanceId, MusicianId, Place, Location, DateAndTime)
+                        VALUES
+                            (NULL, $musicianId, '$place', '$location', '$datetime');";
+                
+                $connection->query($sql);
+                $lastId = $connection->insert_id;
+                $sql = "INSERT INTO
+                            RecentActivity (RecentActivityId, MusicianId, Type, ActivityId, FileName)
+                        VALUES (NULL, $musicianId, 'Performance', $lastId, NULL);";
+            }
             
             $result = $connection->query($sql);
             
@@ -456,6 +490,249 @@
                                        "country" => $row["Country"],
                                        "city" => $row["City"],
                                        "email" => $row["Email"]);
+                }
+            }
+            
+            $connection->close();
+            $res = array("response" => $response,
+                        "MESSAGE" => "SUCCESS");
+            return $res;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptGetConnections($MusicianId)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT 
+                        *
+                    FROM
+                        Connection
+                    JOIN 
+                        Musician ON (Musician.MusicianId = Connection.MusicianSentId OR Musician.MusicianId = Connection.MusicianReceivedId) AND Musician.MusicianId <> $MusicianId
+                    WHERE 
+                        (MusicianSentId = $MusicianId OR MusicianReceivedId = $MusicianId) AND 
+                        ConnectionStatus = 'Accepted';";
+            
+            $result = $connection->query($sql);
+            $response = array();
+            if ($result->num_rows > 0)
+            {
+                while ($row = $result->fetch_assoc())
+                {
+                    $connectionId;
+                    if ($row["MusicianSentId"] == $MusicianId)
+                    {
+                        $connectionId = $row["MusicianReceivedId"];
+                    }
+                    else
+                    {
+                        $connectionId = $row["MusicianSentId"];
+                    }
+                    
+                    $response[] = array("musicianName"=>$row["MusicianName"],
+                                       "country" => $row["Country"],
+                                       "city" => $row["City"],
+                                       "email" => $row["Email"],
+                                       "musicianId" => $connectionId);
+                }
+            }
+            
+            $connection->close();
+            $res = array("response" => $response,
+                        "MESSAGE" => "SUCCESS");
+            return $res;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptAcceptRequest($MusicianId, $MusicianToAccept)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT 
+                        MusicianId
+                    FROM
+                        Musician
+                    WHERE 
+                        Email = '$MusicianToAccept';";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {  
+                while($row = $result->fetch_assoc())
+                {
+                    $MusicianIdToAccept = $row["MusicianId"];
+                }
+                
+                $sql = "UPDATE 
+                            Connection
+                        SET 
+                            ConnectionStatus='Accepted'
+                        WHERE 
+                            MusicianSentId='$MusicianIdToAccept' AND
+                            MusicianReceivedId='$MusicianId';";
+            
+                $result = $connection->query($sql);
+                if ($result)
+                {
+                    $connection->close();
+                    $res = array("MESSAGE" => "SUCCESS");
+                    return $res;
+                }
+                else
+                {
+                    $connection->close();
+                    return array("MESSAGE" => "406");
+                }
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptRejectRequest($MusicianId, $MusicianToReject)
+    {
+        $connection = databaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT 
+                        MusicianId
+                    FROM
+                        Musician
+                    WHERE
+                        Email = '$MusicianToReject';";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {  
+                while($row = $result->fetch_assoc())
+                {
+                    $MusicianIdToReject = $row["MusicianId"];
+                }
+                
+                $sql = "UPDATE 
+                            Connection
+                        SET 
+                            ConnectionStatus='Rejected'
+                        WHERE 
+                            MusicianSentId='$MusicianIdToReject' AND
+                            MusicianReceivedId='$MusicianId';";
+            
+                $result = $connection->query($sql);
+
+                if ($result)
+                {
+                    $connection->close();
+                    $res = array("MESSAGE" => "SUCCESS");
+                    return $res;
+                }
+                else
+                {
+                    $connection->close();
+                    return array("MESSAGE" => "406");
+                }
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptGetRecentActivity($MusicianId)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT 
+                        *
+                    FROM
+                        RecentActivity
+                    WHERE 
+                        MusicianId = $MusicianId;";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {
+                $type;
+                $activityId;
+                $fileName;
+                while ($row = $result->fetch_assoc())
+                {
+                    $type = $row["Type"];
+                    $activityId = $row["ActivityId"];
+                    $fileName = $row["FileName"];
+                }
+            }
+
+            if ($type == "Performance")
+            {
+                $sql = "SELECT
+                            *
+                        FROM
+                            Performance
+                        WHERE
+                            PerformanceId = $activityId;";
+                
+                $result = $connection->query($sql);
+                
+                while ($row = $result->fetch_assoc())
+                {
+                    $response = array("place" => $row["Place"],
+                                       "location" => $row["Location"],
+                                       "dateTime" => $row["DateAndTime"],
+                                       "type" => $type);
+                }
+            }
+            else if ($type == "Image")
+            {
+                $directory = "C:/Users/Huvok/Documents/GitHub/Cover/uploads/images/";
+                $images = glob($directory . $MusicianId . "/" . $fileName);
+
+                foreach($images as $image)
+                {
+                  $response = array("image" => base64_encode(file_get_contents($image)),
+                                    "type" => $type);
+                }
+            }
+            else if ($type == "Track")
+            {
+                $directory = "C:/Users/Huvok/Documents/GitHub/Cover/uploads/audio/";
+                $audio = glob($directory . $MusicianId . "/" . $fileName);
+
+                foreach($audio as $track)
+                {
+                  $response = array("track" => base64_encode(file_get_contents($track)),
+                                    "type" => $type);
                 }
             }
             
