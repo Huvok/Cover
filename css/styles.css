@@ -169,7 +169,7 @@ input[type="checkbox"] {
     position: relative;
 }
 
-div .inline-p {
+div .inline-p, div label p {
     display: inline-block;
 }
 

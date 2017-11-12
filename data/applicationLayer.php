@@ -46,6 +46,18 @@
         case "GET_RECEIVED_REQUESTS" :
             subGetReceivedRequestsFunction();
             break;
+        case "GET_CONNECTIONS" :
+            subGetConnectionsFunction();
+            break;
+        case "ACCEPT_REQUEST" :
+            subAcceptRequestFunction();
+            break;
+        case "REJECT_REQUEST" :
+            subRejectRequestFunction();
+            break;
+        case "GET_RECENT_ACTIVITY" :
+            subGetrecentActivityFunction();
+            break;
     }
 
     function subLoginFunction()
@@ -295,6 +307,70 @@
         else
         {
             subGetErrorByCode($getReceivedRequestsResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetConnectionsFunction()
+    {
+        session_start();
+        $getConnectionsResponse = jsonAttemptGetConnections($_SESSION["MusicianId"]);
+        
+        if ($getConnectionsResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($getConnectionsResponse["response"]);
+        }
+        else
+        {
+            subGetErrorByCode($getConnectionsResponse["MESSAGE"]);
+        }
+    }
+
+    function subAcceptRequestFunction()
+    {
+        session_start();
+        $acceptRequestResponse = jsonAttemptAcceptRequest($_SESSION["MusicianId"], $_POST["musicianToAccept"]);
+        
+        if ($acceptRequestResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode(array("MESSAGE" => "SUCCESS"));
+        }
+        else
+        {
+            subGetErrorByCode($acceptRequestResponse["MESSAGE"]);
+        }
+    }
+
+    function subRejectRequestFunction()
+    {
+        session_start();
+        $rejectRequestResponse = jsonAttemptRejectRequest($_SESSION["MusicianId"], $_POST["musicianToReject"]);
+        
+        if ($rejectRequestResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode(array("MESSAGE" => "SUCCESS"));
+        }
+        else
+        {
+            subGetErrorByCode($rejectRequestResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetRecentActivityFunction()
+    {
+        $recentActivityResponse = jsonAttemptGetRecentActivity($_POST["musicianId"]);
+        
+        if ($recentActivityResponse["MESSAGE"] == "SUCCESS")
+        {
+            $recentActivityResponse["response"]["musicianName"] = $_POST["musicianName"];
+            $recentActivityResponse["response"]["country"] = $_POST["country"];
+            $recentActivityResponse["response"]["city"] = $_POST["city"];
+            $recentActivityResponse["response"]["email"] = $_POST["email"];
+            
+            echo json_encode($recentActivityResponse["response"]);
+        }
+        else
+        {
+            subGetErrorByCode($recentActivityResponse["MESSAGE"]);
         }
     }
 
