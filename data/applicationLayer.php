@@ -37,6 +37,15 @@
         case "SEARCH" :
             subSearchFunction();
             break;
+        case "CONNECT_REQUEST" :
+            subConnectRequestFunction();
+            break;
+        case "GET_SENT_REQUESTS" :
+            subGetSentRequestsFunction();
+            break;
+        case "GET_RECEIVED_REQUESTS" :
+            subGetReceivedRequestsFunction();
+            break;
     }
 
     function subLoginFunction()
@@ -244,6 +253,51 @@
         }
     }
 
+    function subConnectRequestFunction()
+    {
+        session_start();
+        $connectRequestResponse = jsonAttemptConnectRequest($_SESSION["MusicianId"], $_POST["MusicianToConnect"]);
+        
+        if ($connectRequestResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($connectRequestResponse["MESSAGE"]);
+        }
+        else
+        {
+            subGetErrorByCode($connectRequestResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetSentRequestsFunction()
+    {
+        session_start();
+        $getSentRequestsResponse = jsonAttemptGetSentRequests($_SESSION["MusicianId"]);
+        
+        if ($getSentRequestsResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($getSentRequestsResponse["response"]);
+        }
+        else
+        {
+            subGetErrorByCode($getSentRequestsResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetReceivedRequestsFunction()
+    {
+        session_start();
+        $getReceivedRequestsResponse = jsonAttemptGetReceivedRequests($_SESSION["MusicianId"]);
+        
+        if ($getReceivedRequestsResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($getReceivedRequestsResponse["response"]);
+        }
+        else
+        {
+            subGetErrorByCode($getReceivedRequestsResponse["MESSAGE"]);
+        }
+    }
+
     function subGetErrorByCode($errorCode)
     {
         switch($errorCode)
@@ -253,13 +307,17 @@
                 die("The server is down, we couln't stablish a connection.");
                 break;
             case "409" :
-                header("HTTP/1.1 409 The username is already taken.");
+                header("HTTP/1.1 409 The email is already taken.");
                 die("The username is already taken.");
                 break;
             case "406" : 
                 header("HTTP/1.1 406 User not found.");
                 die("Wrong credentials provided");
                 break; 
+            case "505" :
+                header("HTTP/1.1 505 There has been an error.");
+                die("There has been an error.");
+                break;
         }
     }
      

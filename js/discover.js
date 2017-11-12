@@ -64,14 +64,14 @@ $(document).ready(function() {
     
     $(document).on('click', ".connectButton", function() {
         var musicianToConnect = $(this).parent().find(".musicianEmail").html();
-
+        
         var jsonToSend = {
             "MusicianToConnect" : musicianToConnect,
             "action" : "CONNECT_REQUEST"
         };
         
         $.ajax({
-            url : "./data/applicationLayer.php",
+            url : "../data/applicationLayer.php",
             type : "POST",
             data : jsonToSend,
             ContentType : "application/json",

@@ -283,3 +283,40 @@ img {
     display: block;
     margin-bottom: 0;
 }
+
+#accordion a {
+    text-decoration: none;
+    color: white;
+}
+
+#accordion .card {
+    background-color: rgba(224, 158, 26, 1);
+    border: 0;
+}
+
+#accordion .collapse, #accordion .collapsing {
+    background-color: rgba(19, 35, 47, 1);
+}
+
+#accordion .card:hover, #accordion .card:focus  {
+    background: rgba(183, 129, 22, 1);
+    outline: none;
+    cursor: pointer;
+}
+
+.mb-0 > a {
+  display: inline-block;
+  width: 100%;
+}
+
+.musician-block {
+    color: white;
+    margin: 5px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: rgba(224, 158, 26, 1);
+}
+
+.musician-block * {
+    margin: 0;
+}

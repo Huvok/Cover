@@ -88,7 +88,7 @@
             
             $sql = "SELECT *
                 FROM Musician
-                WHERE MusicianName = '$musicianName';";
+                WHERE Email = '$email';";
   
             $result = $connection->query($sql);
 
@@ -323,6 +323,138 @@
                     $response[] = array("musicianName"=>$row["MusicianName"],
                                       "country"=>$row["Country"],
                                       "city"=>$row["City"],
+                                       "email" => $row["Email"]);
+                }
+            }
+            
+            $connection->close();
+            $res = array("response" => $response,
+                        "MESSAGE" => "SUCCESS");
+            return $res;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptConnectRequest($MusicianId, $MusicianToAdd)
+    {
+        $connection = getDatabaseConnection();
+            
+        if ($connection != null)
+        {
+            $sql = "SELECT MusicianId
+                    FROM Musician
+                    WHERE Email = '$MusicianToAdd';";
+            
+            $result = $connection->query($sql);
+            
+            if ($result->num_rows > 0)
+            {  
+                while($row = $result->fetch_assoc())
+                {
+                    $MusicianIdToAdd = $row["MusicianId"];
+                }
+                
+                $sql = "INSERT INTO
+                            `Connection` (ConnectionId, MusicianSentId, MusicianReceivedId, ConnectionStatus, SentDate, AcceptedDate)
+                        VALUES (NULL, $MusicianId, $MusicianIdToAdd, 'SENT', DEFAULT, NULL);";
+
+                $result = $connection->query($sql);
+
+                if ($result)
+                {
+                    $connection->close();
+                    return array("MESSAGE" => "SUCCESS");
+                }
+                else
+                {
+                    $connection->close();
+                    return array("MESSAGE" => "505");
+                }
+            }
+            else
+            {
+                $connection->close();
+                return array("MESSAGE" => "406");
+            }
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptGetSentRequests($MusicianId)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT 
+                        *
+                    FROM 
+                        `Connection`
+                    JOIN 
+                        Musician ON MusicianReceivedId = Musician.MusicianId
+                    WHERE 
+                        MusicianSentId = '$MusicianId' AND
+                        ConnectionStatus = 'SENT';";
+            
+            $result = $connection->query($sql);
+            
+            $response = array();
+        
+            if ($result->num_rows > 0)
+            {
+                while ($row = $result->fetch_assoc())
+                {
+                    $response[] = array("musicianName"=>$row["MusicianName"],
+                                       "country" => $row["Country"],
+                                       "city" => $row["City"],
+                                       "email" => $row["Email"]);
+                }
+            }
+            
+            $connection->close();
+            $res = array("response" => $response,
+                        "MESSAGE" => "SUCCESS");
+            return $res;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptGetReceivedRequests($MusicianId)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT 
+                        *
+                    FROM 
+                        `Connection`
+                    JOIN 
+                        Musician ON MusicianSentId = Musician.MusicianId
+                    WHERE 
+                        MusicianReceivedId = '$MusicianId' AND
+                        ConnectionStatus = 'SENT';";
+            
+            $result = $connection->query($sql);
+            
+            $response = array();
+            
+            if ($result->num_rows > 0)
+            {
+                while ($row = $result->fetch_assoc())
+                {
+                    $response[] = array("musicianName"=>$row["MusicianName"],
+                                       "country" => $row["Country"],
+                                       "city" => $row["City"],
                                        "email" => $row["Email"]);
                 }
             }
