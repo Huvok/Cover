@@ -28,7 +28,7 @@ $(document).ready(function() {
 	});
     
     $("#submitSearch").on("click", function () {
-        var search = $("#searchInput") .val();
+        var search = $("#searchInput").val();
         
         var jsonToSend = {
             "search" : search,
@@ -42,14 +42,14 @@ $(document).ready(function() {
             ContentType : "application/json",
             datatype : "json",
             success : function(dataReceived) {
-                var newHtml = '<div class="musicians">';
+                var newHtml = '<div class="musicians row">';
                 for(var i = 0; i < dataReceived.length; i++)
                 {
-                    newHtml += '<div class="musicianSearch">';
+                    newHtml += '<div class="musician-block col-lg-12">';
                     newHtml += '<h4>' + dataReceived[i]["musicianName"] + '</h4>'
                         + '<p>' + dataReceived[i]["country"] + ' - ' + dataReceived[i]["city"] + '<p>';
                     newHtml += '<p class="musicianEmail">' + dataReceived[i]["email"] + '</p>';
-                    newHtml += '<button type="submit" class="connectButton">Connect</button>';
+                    newHtml += '<button type="submit" class="connectButton mb-2 mt-2">Connect</button>';
                     newHtml += '</div>';
                 }
 
@@ -86,4 +86,15 @@ $(document).ready(function() {
         
         $(this).parent().html("");
     });
+    
+    $("#navbar-search-button").on('click', function() {
+        window.location.replace("./discover.html?search=" + $("#navbar-search").val());
+    });
+    
+    var url = new URL(window.location.href);
+    if (url.searchParams.get("search") != null)
+    {
+        $("#searchInput").val(url.searchParams.get("search"));
+        $("#submitSearch").click();
+    }
 });

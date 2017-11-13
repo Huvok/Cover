@@ -22,11 +22,20 @@
         case "DELETE_SESSION" :
             subDeleteSessionFunction();
             break;
+        case "GET_MUSICIAN_INFO" :
+            subGetMusicianInfoFunction();
+            break;
+        case "GET_INFO_BY_ID" :
+            subGetInfoByIdFunction();
+            break;
         case "SUBMIT_NEW_PERFORMANCE" :
             subSubmitNewPerformanceFunction();
             break;
         case "GET_OWN_PERFORMANCES" :
-            subGetOwnPerformancesFunction();
+            subGetOwnPerformances();
+            break;
+        case "GET_PERFORMANCES_BY_ID" :
+            subGetPerformances();
             break;
         case "UPLOAD_IMAGE" :
             subUploadImageFunction();
@@ -57,6 +66,21 @@
             break;
         case "GET_RECENT_ACTIVITY" :
             subGetrecentActivityFunction();
+            break;
+        case "GET_ID_BY_EMAIL" :
+            subGetIdByEmailFunction();
+            break;
+        case "GET_OWN_IMAGES" :
+            subGetOwnImages();
+            break;
+        case "GET_OWN_TRACKS" :
+            subGetOwnTracks();
+            break;
+        case "GET_IMAGES_BY_ID" :
+            subGetImages();
+            break;
+        case "GET_TRACKS_BY_ID" :
+            subGetTracks();
             break;
     }
 
@@ -147,6 +171,36 @@
         }
     }
 
+    function subGetMusicianInfoFunction()
+    {
+        session_start();
+        
+        $getMusicianInfoResponse = jsonAttemptGetInfoById($_SESSION["MusicianId"]);
+        
+        if ($getMusicianInfoResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($getMusicianInfoResponse);
+        }
+        else
+        {
+            subGetErrorByCode($getMusicianInfoResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetInfoByIdFunction()
+    {
+        $getInfoByIdResponse = jsonAttemptGetInfoById($_POST["musicianId"]);
+        
+        if ($getInfoByIdResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode($getInfoByIdResponse);
+        }
+        else
+        {
+            subGetErrorByCode($getInfoByIdResponse["MESSAGE"]);
+        }
+    }
+
     function subDeleteSessionFunction()
     {
         session_start();
@@ -182,12 +236,20 @@
         }
     }
 
-    function subGetOwnPerformancesFunction()
+    function subGetOwnPerformances()
     {
         session_start();
-        $musicianId = $_SESSION["MusicianId"];
-        
-        $getOwnPerformancesResponse = jsonAttemptGetPerformances($musicianId);
+        subGetPerformancesById($_SESSION["MusicianId"]);
+    }
+
+    function subGetPerformances()
+    {
+        subGetPerformancesById($_POST["musicianId"]);
+    }
+
+    function subGetPerformancesById($MusicianId)
+    {
+        $getOwnPerformancesResponse = jsonAttemptGetPerformances($MusicianId);
         
         if ($getOwnPerformancesResponse["MESSAGE"] == "SUCCESS")
         {
@@ -372,6 +434,72 @@
         {
             subGetErrorByCode($recentActivityResponse["MESSAGE"]);
         }
+    }
+
+    function subGetIdByEmailFunction()
+    {
+        $getIdByEmailResponse = jsonAttemptGetIdByEmail($_POST["email"]);
+
+        if ($getIdByEmailResponse["MESSAGE"] == "SUCCESS")
+        {
+            echo json_encode(array("musicianId" => $getIdByEmailResponse["musicianId"]));
+        }
+        else
+        {
+            subGetErrorByCode($getIdByEmailResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetOwnImages()
+    {
+        session_start();
+        subGetImagesById($_SESSION["MusicianId"]);
+    }
+
+    function subGetOwnTracks()
+    {
+        session_start();
+        subGetTracksById($_SESSION["MusicianId"]);
+    }
+
+    function subGetImages()
+    {
+        subGetImagesById($_POST["musicianId"]);
+    }
+
+    function subGetTracks()
+    {
+        subGetTracksById($_POST["musicianId"]);
+    }
+
+    function subGetImagesById($MusicianId)
+    {
+        $directory = __DIR__ . "/../uploads/images/";
+
+        $images = glob($directory . $MusicianId . "/*.jpg");
+
+        $response = array();
+        foreach($images as $image)
+        {
+            $response[] = base64_encode(file_get_contents($image));
+        }
+
+        echo json_encode($response);
+    }
+
+    function subGetTracksById($MusicianId)
+    {
+        $directory = __DIR__ . "/../uploads/audio/";
+
+        $audio = glob($directory . $MusicianId . "/*.mp3");
+
+        $response = array();
+        foreach($audio as $track)
+        {
+          $response[] = base64_encode(file_get_contents($track));
+        }
+
+        echo json_encode($response);
     }
 
     function subGetErrorByCode($errorCode)

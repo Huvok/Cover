@@ -189,6 +189,44 @@
         }
     }
 
+    function jsonAttemptGetInfoById($MusicianId)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT
+                        *
+                    FROM
+                        Musician
+                    WHERE
+                        MusicianId = $MusicianId;";
+            
+            $result = $connection->query($sql);
+            
+            $response;
+            if ($result->num_rows > 0)
+            {
+                while ($row = $result->fetch_assoc())
+                {
+                    $response = array("musicianName" => $row["MusicianName"],
+                                     "MESSAGE" => "SUCCESS");
+                }
+            }
+            else
+            {
+                $response = array("MESSAGE" => "406");
+            }
+            
+            $connection->close();
+            return $response;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
     function jsonAttemptGetPerformances($musicianId)
     {
         $connection = getDatabaseConnection();
@@ -344,20 +382,24 @@
                     WHERE
                         (MusicianName like '%$searchContent%' OR Email like '%$searchContent%') AND
                         Musician.MusicianId not in (SELECT MusicianReceivedId from Connection WHERE Connection.MusicianSentId = $MusicianId) AND
+                        Musician.MusicianId not in (SELECT MusicianSentId from Connection WHERE Connection.MusicianSentId = $MusicianId) AND
                         Musician.MusicianId != $MusicianId;";
-            
+        
             $result = $connection->query($sql);
             
             $response = array();
             
-            if ($result->num_rows > 0)
+            if ($result)
             {
-                while ($row = $result->fetch_assoc())
+                if ($result->num_rows > 0)
                 {
-                    $response[] = array("musicianName"=>$row["MusicianName"],
-                                      "country"=>$row["Country"],
-                                      "city"=>$row["City"],
-                                       "email" => $row["Email"]);
+                    while ($row = $result->fetch_assoc())
+                    {
+                        $response[] = array("musicianName"=>$row["MusicianName"],
+                                          "country"=>$row["Country"],
+                                          "city"=>$row["City"],
+                                           "email" => $row["Email"]);
+                    }
                 }
             }
             
@@ -740,6 +782,48 @@
             $res = array("response" => $response,
                         "MESSAGE" => "SUCCESS");
             return $res;
+        }
+        else
+        {
+            return array("MESSAGE" => "500");
+        }
+    }
+
+    function jsonAttemptGetIdByEmail($Email)
+    {
+        $connection = getDatabaseConnection();
+        
+        if ($connection != null)
+        {
+            $sql = "SELECT
+                        *
+                    FROM
+                        Musician
+                    WHERE
+                        Email = '$Email';";
+            
+            $result = $connection->query($sql);
+            
+            if ($result)
+            {
+                if ($result->num_rows > 0)
+                {
+                    $response;
+                    while ($row = $result->fetch_assoc())
+                    {
+                        $response = array("musicianId" => $row["MusicianId"],
+                                         "MESSAGE" => "SUCCESS");
+                    }
+                    
+                    $connection->close();
+                    return $response;
+                }
+                else
+                {
+                    $connection->close();
+                    return array("MESSAGE" => "406");
+                }
+            }
         }
         else
         {

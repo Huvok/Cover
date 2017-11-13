@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="../Frameworks and Tools/bootstrap/css/bootstrap-social.css"/>
         <link rel="stylesheet" href="../Frameworks and Tools/font-awesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="../Frameworks%20and%20Tools/datetime-picker/css/bootstrap-datetimepicker.css"/>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -20,10 +21,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="home.html">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="profile.html">Profile</a>
@@ -48,15 +47,51 @@
         </div>
     </nav>
     
-    <div style="margin-bottom: 75px;"></div>
+    <div style="margin-bottom: 55px;"></div>
     <body id="body-background">
-        <div class="container">
-            <div class="row" id="connections">
-                
+        <div class="container bg">
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 id="musicianName"></h1>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="col-lg-10 offset-lg-1 profile-well">
+                    <div class="profile-well-title">
+                        <h3>Tracks</h3>
+                    </div>
+
+                    <div id="responseTracks"></div>
+                    <ul id="track-list">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-10 offset-lg-1 profile-well">
+                    <div class="profile-well-title">
+                        <h3>Photos</h3>
+                    </div>
+
+                    <div id="response"></div>
+                    <ul id="image-list">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-10 offset-lg-1 profile-well">
+                    <div class="profile-well-title">
+                        <h3>Performances</h3>
+                    </div>
+                    <div id="performances">
+                    </div>
+                </div>
+            </div>
+        </div>  
     </body>
-    <div style="margin-bottom: 75px;"></div>
     
     <footer class="row-footer">
         <div class="container">
@@ -102,5 +137,6 @@
     
     <script src="../Frameworks%20and%20Tools/jquery/jquery.js"></script>
     <script src="../Frameworks%20and%20Tools/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../js/home.js"></script>
+    <script src="../js/musicianProfile.js"></script>
+    <script src="../Frameworks%20and%20Tools/datetime-picker/js/bootstrap-datetimepicker.js"></script>
 </html>

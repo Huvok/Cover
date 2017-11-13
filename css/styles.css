@@ -234,9 +234,10 @@ body, html {
     opacity: .65;
 }
 
-#musicianName {
+#musicianName, #pageHeader {
     text-align: center;
     color: white;
+    margin: 10px;
 }
 
 .profile-well {
@@ -311,7 +312,7 @@ img {
 
 .musician-block {
     color: white;
-    margin: 5px;
+    margin: 10px;
     border-bottom: 1px solid;
     border-top: 1px solid;
     border-color: rgba(224, 158, 26, 1);
@@ -319,4 +320,12 @@ img {
 
 .musician-block * {
     margin: 0;
+}
+
+.link-to-musician-page:hover {
+    cursor: pointer;
+}
+
+.paragraph-white {
+    color: white;
 }

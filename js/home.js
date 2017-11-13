@@ -49,15 +49,14 @@ $(document).ready(function() {
                     ContentType : "application/json",
                     dataType : "json",
                     success : function(dataReceived2) {
-                        newHtml = '<div class="musician-block col-sm-12 row">';
+                        newHtml = '<div class="musician-block col-sm-12 row link-to-musician-page">';
                         newHtml += '<div class="col-sm-5">'
                         newHtml += '<h4>' + dataReceived2["musicianName"] + '</h4>';
                         newHtml += '<p>' + dataReceived2["country"] + ' - ' + dataReceived2["city"] + '</p>';
-                        newHtml += '<p>' + dataReceived2["email"] + '</p>';
+                        newHtml += '<p class="emailResponse">' + dataReceived2["email"] + '</p>';
                         newHtml += '</div>';
                         newHtml += '<div class="col-sm-3">';
                        
-                        console.log(dataReceived2["Image"]);
                         if (dataReceived2["type"] == "Performance")
                         {
                             newHtml += '<h4>Performing:</h4>';
@@ -87,5 +86,14 @@ $(document).ready(function() {
         error : function(errorMessage) {
             alert(errorMessage.statusText);
         }
+    });
+    
+    $(document).on('click', ".link-to-musician-page", function() {
+        var musicianPage = $(this).find(".col-sm-5").find(".emailResponse").html();
+        window.location.replace("./musicianProfile.html?email=" + musicianPage);
+    });
+    
+    $("#navbar-search-button").on('click', function() {
+        window.location.replace("./discover.html?search=" + $("#navbar-search").val());
     });
 });

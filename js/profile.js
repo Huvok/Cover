@@ -1,11 +1,11 @@
 $(document).ready(function() {
-   $.ajax({
+    $.ajax({
 		url : "../data/applicationLayer.php",
 		type : "POST",
 		dataType : "json",
         data : { "action" : "GET_SESSION" },
 		success : function(dataReceived){
-			localStorage.setItem("MusicianId", dataReceived["MusicianId"]);
+			
 		},
 		error : function(errorMessage){
 			window.location.replace("../index.html");
@@ -28,9 +28,24 @@ $(document).ready(function() {
 	});
     
     $.ajax({
-        url : "../data/loadImages.php",
+        url : "../data/applicationLayer.php",
         type : "POST",
         dataType : "json",
+        data : { "action" : "GET_MUSICIAN_INFO" },
+        success : function(dataReceived) {
+            $("#musicianName").html(dataReceived["musicianName"]);
+        },
+        error : function(errorMessage)
+        {
+            alert(errorMessage.statusText);
+        }
+    });
+    
+    $.ajax({
+        url : "../data/applicationLayer.php",
+        type : "POST",
+        dataType : "json",
+        data : { "action" : "GET_OWN_IMAGES" },
         success : function(dataReceived) {
             for (var i = 0; i < dataReceived.length; i++)
             {
@@ -50,9 +65,10 @@ $(document).ready(function() {
     });
     
     $.ajax({
-        url : "../data/loadTracks.php",
+        url : "../data/applicationLayer.php",
         type : "POST",
         dataType : "json",
+        data : { "action" : "GET_OWN_TRACKS" },
         success : function(dataReceived) {
             for (var i = 0; i < dataReceived.length; i++)
             {
@@ -269,6 +285,10 @@ $(document).ready(function() {
             }
         });
     }
+    
+    $("#navbar-search-button").on('click', function() {
+        window.location.replace("./discover.html?search=" + $("#navbar-search").val());
+    });
 });
 
 function showUploadedImage (source) 

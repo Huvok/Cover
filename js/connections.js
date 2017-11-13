@@ -38,10 +38,10 @@ $(document).ready(function() {
 
             for (var i = 0; i < dataReceived.length; i++)
             {
-                newHtml += '<div class="musician-block">';
+                newHtml += '<div class="musician-block link-to-musician-page">';
                 newHtml += '<h4>' + dataReceived[i]["musicianName"] + '</h4>';
                 newHtml += '<p>' + dataReceived[i]["country"] + ' - ' + dataReceived[i]["city"] + '</p>';
-                newHtml += '<p>' + dataReceived[i]["email"] + '</p>';
+                newHtml += '<p class="emailRequest">' + dataReceived[i]["email"] + '</p>';
                 newHtml += '</div>';
             }
 
@@ -134,7 +134,7 @@ $(document).ready(function() {
     });
     
     $(document).on('click', ".rejectButton", function() {
-         var musicianToReject = $(this).parent().find(".emailRequest").html();
+        var musicianToReject = $(this).parent().find(".emailRequest").html();
 
         var jsonToSend = {
             "musicianToReject" : musicianToReject,
@@ -157,5 +157,14 @@ $(document).ready(function() {
         });
         
         $(this).parent().html("");
+    });
+    
+    $(document).on('click', ".link-to-musician-page", function() {
+        var musicianPage = $(this).find(".emailRequest").html();
+        window.location.replace("./musicianProfile.html?email=" + musicianPage);
+    });
+    
+    $("#navbar-search-button").on('click', function() {
+        window.location.replace("./discover.html?search=" + $("#navbar-search").val());
     });
 });
