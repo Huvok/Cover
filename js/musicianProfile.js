@@ -37,6 +37,21 @@ $(document).ready(function() {
                 "action" : "GET_ID_BY_EMAIL" },
         success: function(dataReceived) {
             musicianId = dataReceived["musicianId"];
+            
+            $.ajax({
+                url : "../data/applicationLayer.php",
+                type : "POST",
+                dataType : "json",
+                data : { "musicianId" : musicianId,
+                        "action" : "GET_COVER_PICTURE_BY_ID" },
+                success : function(dataReceived) {
+                    $("#cover").css('background-image', 'url("' + dataReceived["url"] + '.jpg")');
+                },
+                error : function(errorMessage)
+                {
+                    alert(errorMessage.statusText);
+                }
+            });
            
             $.ajax({
                 url : "../data/applicationLayer.php",

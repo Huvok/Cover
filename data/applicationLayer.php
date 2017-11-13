@@ -82,6 +82,15 @@
         case "GET_TRACKS_BY_ID" :
             subGetTracks();
             break;
+        case "UPLOAD_COVER_PICTURE" :
+            subUploadCoverPicture();
+            break;
+        case "GET_COVER_PICTURE" :
+            subGetCoverPicture();
+            break;
+        case "GET_COVER_PICTURE_BY_ID" :
+            subGetCoverPictureById();
+            break;
     }
 
     function subLoginFunction()
@@ -500,6 +509,55 @@
         }
 
         echo json_encode($response);
+    }
+
+    function subUploadCoverPicture()
+    {
+        session_start();
+
+        if(!move_uploaded_file($_FILES['cover']['tmp_name'], 'C:/Users/Huvok/Documents/GitHub/Cover/uploads/covers/' . $_SESSION["MusicianId"] . ".jpg")){
+            die('Error uploading file - check destination is writeable.');
+        }
+        
+        $uploadImageResponse = jsonAttemptUploadImage($_SESSION["MusicianId"], $_FILES["cover"]["name"]);
+        
+        if ($uploadImageResponse["MESSAGE"] == "SUCCESS")
+        {
+            subGetCoverPicture();
+        }
+        else
+        {
+            subGetErrorByCode($uploadImageResponse["MESSAGE"]);
+        }
+    }
+
+    function subGetCoverPicture()
+    {
+        session_start();
+        $directory = __DIR__ . "/../uploads/covers/";
+
+        if (file_exists($directory . $_SESSION["MusicianId"] . ".jpg")) 
+        {
+            echo json_encode(array("url" => "../uploads/covers/" . $_SESSION["MusicianId"]));
+        }
+        else
+        {
+            echo json_encode(array("url" => "../images/Band Dummy Cover"));
+        }
+    }
+
+    function subGetCoverPictureById()
+    {
+        $directory = __DIR__ . "/../uploads/covers/";
+
+        if (file_exists($directory . $_POST["musicianId"] . ".jpg")) 
+        {
+            echo json_encode(array("url" => "../uploads/covers/" . $_POST["musicianId"]));
+        }
+        else
+        {
+            echo json_encode(array("url" => "../images/Band Dummy Cover"));
+        }
     }
 
     function subGetErrorByCode($errorCode)

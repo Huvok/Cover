@@ -45,6 +45,20 @@ $(document).ready(function() {
         url : "../data/applicationLayer.php",
         type : "POST",
         dataType : "json",
+        data : { "action" : "GET_COVER_PICTURE" },
+        success : function(dataReceived) {
+            $("#cover").css('background-image', 'url("' + dataReceived["url"] + '.jpg")');
+        },
+        error : function(errorMessage)
+        {
+            alert(errorMessage.statusText);
+        }
+    });
+    
+    $.ajax({
+        url : "../data/applicationLayer.php",
+        type : "POST",
+        dataType : "json",
         data : { "action" : "GET_OWN_IMAGES" },
         success : function(dataReceived) {
             for (var i = 0; i < dataReceived.length; i++)
@@ -167,6 +181,36 @@ $(document).ready(function() {
                     $("#dateTimeNewPerformance").val("");
                     $("#placeNewPerformance").val("");
                     $("#locationNewPerformance").val("");
+                }
+            });
+        }
+    });
+    
+    $("#fileUpload").on('change', function () {
+        var file = this.files[0], reader;
+        
+        if (!!file.type.match(/image.*/))
+        {
+            if (formdata) 
+            {
+                formdata.append("cover", file);
+            }
+            
+            formdata.append("action", "UPLOAD_COVER_PICTURE")
+            $.ajax({
+                url: "../data/applicationLayer.php",
+                type: "POST",
+                data: formdata,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function (dataReceived) {
+                    $("#cover").css('background-image', 'url("' + dataReceived["url"] + '.jpg")');
+                    location.reload();
+                },
+                error : function(errorMessage)
+                {
+                    alert(errorMessage.statusText);
                 }
             });
         }

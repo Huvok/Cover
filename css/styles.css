@@ -226,8 +226,7 @@ body, html {
 }
 
 .bg {
-    background-image: url("../images/Band%20Dummy%20Cover.jpg");
-    height: 50%;
+    height: 70%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

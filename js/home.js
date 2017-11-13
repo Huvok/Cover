@@ -49,8 +49,8 @@ $(document).ready(function() {
                     ContentType : "application/json",
                     dataType : "json",
                     success : function(dataReceived2) {
-                        newHtml = '<div class="musician-block col-sm-12 row link-to-musician-page">';
-                        newHtml += '<div class="col-sm-5">'
+                        newHtml = '<div class="musician-block col-sm-12 row">';
+                        newHtml += '<div class="col-sm-5 link-to-musician-page">'
                         newHtml += '<h4>' + dataReceived2["musicianName"] + '</h4>';
                         newHtml += '<p>' + dataReceived2["country"] + ' - ' + dataReceived2["city"] + '</p>';
                         newHtml += '<p class="emailResponse">' + dataReceived2["email"] + '</p>';
@@ -89,7 +89,7 @@ $(document).ready(function() {
     });
     
     $(document).on('click', ".link-to-musician-page", function() {
-        var musicianPage = $(this).find(".col-sm-5").find(".emailResponse").html();
+        var musicianPage = $(this).find(".emailResponse").html();
         window.location.replace("./musicianProfile.html?email=" + musicianPage);
     });
     

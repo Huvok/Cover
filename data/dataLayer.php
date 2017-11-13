@@ -382,7 +382,7 @@
                     WHERE
                         (MusicianName like '%$searchContent%' OR Email like '%$searchContent%') AND
                         Musician.MusicianId not in (SELECT MusicianReceivedId from Connection WHERE Connection.MusicianSentId = $MusicianId) AND
-                        Musician.MusicianId not in (SELECT MusicianSentId from Connection WHERE Connection.MusicianSentId = $MusicianId) AND
+                        Musician.MusicianId not in (SELECT MusicianSentId from Connection WHERE Connection.MusicianReceivedId = $MusicianId) AND
                         Musician.MusicianId != $MusicianId;";
         
             $result = $connection->query($sql);
